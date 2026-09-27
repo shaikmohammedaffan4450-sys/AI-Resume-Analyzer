@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5f1">
+  <meta name="description" content="Compare resume skills with a job description using local, rule-based analysis.">
+  <title>AI Resume Analyzer</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/script.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="AI Resume Analyzer home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span>Fieldnote <span class="wordmark-divider">/</span> Career tools</span>
+      </a>
+      <span class="local-badge"><span class="status-dot" aria-hidden="true"></span>Local analysis</span>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">A clearer view of your fit</p>
+        <h1 id="page-title">AI Resume Analyzer</h1>
+        <p class="intro-copy">Compare your resume with a role using transparent, rule-based skill matching. This is a basic skill-match score, not a professional ATS score.</p>
+      </section>
+
+      <form id="analysis-form" class="workspace" novalidate>
+        <section class="input-panel" aria-labelledby="inputs-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">01 <span>Provide your materials</span></p>
+              <h2 id="inputs-title">Start with the role</h2>
+            </div>
+            <span class="required-note">Both fields required</span>
+          </div>
+
+          <div class="field-group">
+            <label for="resume">Resume PDF</label>
+            <div class="file-control">
+              <input id="resume" name="resume" type="file" accept=".pdf,application/pdf" required>
+              <span id="file-name" class="file-name">Choose a PDF file, up to 8 MB</span>
+              <span class="file-action" aria-hidden="true">Browse</span>
+            </div>
+            <p class="field-hint">Your file is read for this request and is not saved.</p>
+          </div>
+
+          <div class="field-group description-group">
+            <label for="job-description">Job description</label>
+            <textarea id="job-description" name="job_description" rows="10" placeholder="Paste the full job description here..." required></textarea>
+            <div class="field-footer"><span>Include responsibilities and requirements for a more useful comparison.</span><span id="character-count">0 characters</span></div>
+          </div>
+
+          <div class="form-actions">
+            <button id="analyze-button" type="submit"><span>Analyze resume</span><span aria-hidden="true">&#8594;</span></button>
+            <p id="form-message" class="form-message" role="alert" hidden></p>
+            <p id="loading-message" class="loading-message" role="status" hidden><span class="spinner" aria-hidden="true"></span>Reading and comparing your documents...</p>
+          </div>
+        </section>
+
+        <aside class="method-note" aria-label="Privacy and method">
+          <span class="note-index">A</span>
+          <div>
+            <h2>Your documents stay yours</h2>
+            <p>The PDF is processed in memory by this local application. It is not stored on disk or sent to an external AI service.</p>
+          </div>
+        </aside>
+      </form>
+
+      <section id="results" class="results" aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <div>
+            <p class="eyebrow">02 <span>Your comparison</span></p>
+            <h2 id="results-title">Resume analysis</h2>
+          </div>
+          <span class="score-caption">Recognized skills only</span>
+        </div>
+
+        <div class="results-grid">
+          <section class="score-panel" aria-label="Basic skill-match score">
+            <div id="score-ring" class="score-ring" role="img" aria-label="0 percent skill match">
+              <div class="score-center"><strong id="score-value">0%</strong><span>skill match</span></div>
+            </div>
+            <p id="score-explanation" class="score-explanation"></p>
+          </section>
+
+          <section class="skill-panel">
+            <div class="result-block">
+              <h3><span class="key-dot matched-dot" aria-hidden="true"></span>Skills found in both</h3>
+              <ul id="matched-skills" class="tag-list"></ul>
+              <p id="matched-empty" class="empty-copy" hidden>None of the recognized job skills appeared in the resume.</p>
+            </div>
+            <div class="result-block missing-block">
+              <h3><span class="key-dot missing-dot" aria-hidden="true"></span>Skills not found in resume</h3>
+              <ul id="missing-skills" class="tag-list"></ul>
+              <p id="missing-empty" class="empty-copy" hidden>All recognized job skills appeared in the resume.</p>
+            </div>
+          </section>
+
+          <section class="detail-panel">
+            <div class="result-block">
+              <h3>Important job keywords</h3>
+              <ul id="job-keywords" class="keyword-list"></ul>
+              <p id="keywords-empty" class="empty-copy" hidden>No catalog skills were recognized in the job description.</p>
+            </div>
+            <div class="result-block resume-skills-block">
+              <h3>Skills detected in resume</h3>
+              <ul id="resume-skills" class="keyword-list"></ul>
+              <p id="resume-skills-empty" class="empty-copy" hidden>No catalog skills were recognized in the resume.</p>
+            </div>
+          </section>
+
+          <section class="suggestions-panel">
+            <div class="suggestions-heading"><span class="suggestion-mark" aria-hidden="true">+</span><h3>Ways to strengthen your resume</h3></div>
+            <ul id="suggestions" class="suggestion-list"></ul>
+          </section>
+        </div>
+
+        <details class="extracted-text">
+          <summary>View extracted resume text</summary>
+          <pre id="resume-text"></pre>
+        </details>
+      </section>
+    </main>
+
+    <footer class="footer"><span>AI Resume Analyzer</span><span>Rule-based comparison · No external AI service</span></footer>
+  </div>
+</body>
+</html>
